@@ -3,23 +3,20 @@
 Real-time Transaction Challenge
 ===============================
 ## Overview
-<!-- Welcome to Current's take-home technical assessment for backend engineers! We appreciate you taking the time to complete this, and we're excited to see what you come up with.
+This project is a backend API that records the transactions that are initiated by valid users. 
 
-You are tasked with building a simple bank ledger system that utilizes the [event sourcing](https://martinfowler.com/eaaDev/EventSourcing.html) pattern to maintain a transaction history. The system should allow users to perform basic banking operations such as depositing funds, withdrawing funds, and checking balances. The ledger should maintain a complete and immutable record of all transactions, enabling auditability and reconstruction of account balances at any point in time. -->
+There are 3 API to work with:
+1. Ping
+2. Authorize
+3. Load
 
 ## Details
-<!-- The [included service.yml](service.yml) is the OpenAPI 3.0 schema to a service we would like you to create and host.
+The APIs does the following:
+1. Ping - Checks if the server is alive or not. Returns current TimeStamp is server is up else returns a generic error message
+2. Authorize - Debits a the given amount from user and updates their balance. Returns a JSON object with other details and the updated balance of the user. The transaction is recorded for both the cases, approval and denial.
+3. Load - Credits a the given amount from user and updates their balance. Returns a JSON object with other details and the updated balance of the user. The transaction is recorded.
 
-The service accepts two types of transactions:
-1) Loads: Add money to a user (credit)
-
-2) Authorizations: Conditionally remove money from a user (debit)
-
-Every load or authorization PUT should return the updated balance following the transaction. Authorization declines should be saved, even if they do not impact balance calculation.
-
-
-Implement the event sourcing pattern to record all banking transactions as immutable events. Each event should capture relevant information such as transaction type, amount, timestamp, and account identifier.
-Define the structure of events and ensure they can be easily serialized and persisted to a data store of your choice. We do not expect you to use a persistent store (you can you in-memory object), but you can if you want. We should be able to bootstrap your project locally to test. -->
+The `service.yml` file contains the schemas of the API and other related classes. 
 
 ## Bootstrap instructions
 
@@ -53,13 +50,13 @@ After installing both you should see the following messages.
 After both of them are installed and verified, clone the git repo] to your desired directory.
 
 ```bash
-git clone https://github.com/codescreen/CodeScreen_1521jlcz.git
+git clone https://github.com/ShivangDholaria/Microtransaction-Project.git
 ```
 
 Open your terminal and navigate to the directory where you cloned the repo. Now go into the repo's directory
 
 ```bash
-cd CodeScreen_1521jlcz
+cd Microtransaction-Project
 ```
 
 Then run the following to run the project locally:
@@ -119,10 +116,10 @@ To deploy this, I would use Docker for the following advantages:
 
 Build the image using the command:
 ```bash
-docker image build -t codescreen_1531JLCZ .
+docker image build -t Microtransaction-Project .
 ```
 
 Run the docker image using the command: 
 ```bash
-docker container run -p 8080:8080 -d codescreen_1531JLCZ 
+docker container run -p 8080:8080 -d Microtransaction-Project
 ```

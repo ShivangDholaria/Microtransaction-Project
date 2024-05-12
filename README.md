@@ -3,12 +3,12 @@
 Real-time Transaction Challenge
 ===============================
 ## Overview
-Welcome to Current's take-home technical assessment for backend engineers! We appreciate you taking the time to complete this, and we're excited to see what you come up with.
+<!-- Welcome to Current's take-home technical assessment for backend engineers! We appreciate you taking the time to complete this, and we're excited to see what you come up with.
 
-You are tasked with building a simple bank ledger system that utilizes the [event sourcing](https://martinfowler.com/eaaDev/EventSourcing.html) pattern to maintain a transaction history. The system should allow users to perform basic banking operations such as depositing funds, withdrawing funds, and checking balances. The ledger should maintain a complete and immutable record of all transactions, enabling auditability and reconstruction of account balances at any point in time.
+You are tasked with building a simple bank ledger system that utilizes the [event sourcing](https://martinfowler.com/eaaDev/EventSourcing.html) pattern to maintain a transaction history. The system should allow users to perform basic banking operations such as depositing funds, withdrawing funds, and checking balances. The ledger should maintain a complete and immutable record of all transactions, enabling auditability and reconstruction of account balances at any point in time. -->
 
 ## Details
-The [included service.yml](service.yml) is the OpenAPI 3.0 schema to a service we would like you to create and host.
+<!-- The [included service.yml](service.yml) is the OpenAPI 3.0 schema to a service we would like you to create and host.
 
 The service accepts two types of transactions:
 1) Loads: Add money to a user (credit)
@@ -19,29 +19,8 @@ Every load or authorization PUT should return the updated balance following the 
 
 
 Implement the event sourcing pattern to record all banking transactions as immutable events. Each event should capture relevant information such as transaction type, amount, timestamp, and account identifier.
-Define the structure of events and ensure they can be easily serialized and persisted to a data store of your choice. We do not expect you to use a persistent store (you can you in-memory object), but you can if you want. We should be able to bootstrap your project locally to test.
+Define the structure of events and ensure they can be easily serialized and persisted to a data store of your choice. We do not expect you to use a persistent store (you can you in-memory object), but you can if you want. We should be able to bootstrap your project locally to test. -->
 
-## Expectations
-We are looking for attention in the following areas:
-1) Do you accept all requests supported by the schema, in the format described?
-
-2) Do your responses conform to the prescribed schema?
-
-3) Does the authorizations endpoint work as documented in the schema?
-
-4) Do you have unit and integrations test on the functionality?
-
-Here’s a breakdown of the key criteria we’ll be considering when grading your submission:
-
-**Adherence to Design Patterns:** We’ll evaluate whether your implementation follows established design patterns such as following the event sourcing model.
-
-**Correctness**: We’ll assess whether your implementation effectively implements the desired pattern and meets the specified requirements.
-
-**Testing:** We’ll assess the comprehensiveness and effectiveness of your test suite, including unit tests, integration tests, and possibly end-to-end tests. Your tests should cover critical functionalities, edge cases, and potential failure scenarios to ensure the stability of the system.
-
-**Documentation and Clarity:** We’ll assess the clarity of your documentation, including comments within the code, README files, architectural diagrams, and explanations of design decisions. Your documentation should provide sufficient context for reviewers to understand the problem, solution, and implementation details.
-
-# Candidate README
 ## Bootstrap instructions
 
 System Requirement:
@@ -94,8 +73,6 @@ You will the following when the project runs perfectly
 Enter the following URL in your browser to see the welcome page.
 ![](/img/Starter_page.jpeg)
 ## Design considerations
-*Replace this: I decided to build X for Y reasons.*
-
 I decided to use the Spring Boot framework for the following reasons:
 
 1. Simplified Development: Spring Boot provides a streamlined development experience by offering auto-configuration and opinionated defaults. It reduces the boilerplate code required for setting up a Spring application, allowing developers to focus on writing business logic.
@@ -117,23 +94,14 @@ I decided to go with inline memory rathan a Database as
 
 A database would be well suited for the scenario where data persistence, durability, and advanced querying capabilities are required. 
 
-### Write about system design
-### Write about what used to unit testing
-### Explain event sourcing pattern with my example
-
 Using event sourcing pattern in my case was to record every transaction that a user made and appending its record in an event logger. The event logger has only the functionality to append logs to it. Since events are immutable, there is no need for update or remove functionality. For this, I made an event logger class and used to HashMap to store the users and their respective event logs. By using this approach, we are not only able to maintain an immutable transaction history, but also easier to retrieve the state of the user's account in case of data corruption.
 
-### Why used singleton pattern for User and EventLogger class
 I decided to use singleton pattern for this assessment on 2 classes, **User** and **EventLogger** class. The reasons being:
 - Since inline memory is being used, having a user instance in the RestController class would make it easier and faster to fetch users to perform the trasactions.
 - Passing the instances of these classes solved many of the problems that occurred while developing the API.
 conflicts or inefficiencies.
 - Singleton pattern can improve performance by avoiding the overhead of creating and initializing multiple instances of a class.
 
-## Assumptions
-*Replace this: If you made any assumption in designing the service, document it here*
-
-## Bonus: Deployment considerations
 To deploy this, I would use Docker for the following advantages:
 
 1. Portability: Docker allows you to package your application and its dependencies into a container, which can be run on any platform that supports Docker. This ensures that your application runs consistently across different environments, making it highly portable.
@@ -158,13 +126,3 @@ Run the docker image using the command:
 ```bash
 docker container run -p 8080:8080 -d codescreen_1531JLCZ 
 ```
-
-## License
-
-At CodeScreen, we strongly value the integrity and privacy of our assessments. As a result, this repository is under exclusive copyright, which means you **do not** have permission to share your solution to this test publicly (i.e., inside a public GitHub/GitLab repo, on Reddit, etc.). <br>
-
-## Submitting your solution
-
-Please push your changes to the `main branch` of this repository. You can push one or more commits. <br>
-
-Once you are finished with the task, please click the `Submit Solution` link on <a href="https://app.codescreen.com/candidate/e39e065b-2b93-4639-b75d-0ea5c62e5723" target="_blank">this screen</a>.

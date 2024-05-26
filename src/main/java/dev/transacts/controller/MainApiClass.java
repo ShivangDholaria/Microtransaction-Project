@@ -30,18 +30,11 @@ public class MainApiClass {
 
     //Event loggers
     static EventLogger eventLogger = EventLogger.getInstance();
-
-    //Static User reference
-    static User user = User.getInstance();
     
     @GetMapping("/")
     public String WelcomPage() {
 
         String userIDs = "This is a starter page.</br> The following are the userIDs present to use the API.</br>";
-
-        for(User user : user.userList) {
-            userIDs += user.getUserID() + " </br>";
-        }
 
         return userIDs;
     }
@@ -51,6 +44,7 @@ public class MainApiClass {
         return ResponseEntity.ok(new Ping().ping());
     }
 
+    @SuppressWarnings("unused")
     @PutMapping("/authorization")
     public ResponseEntity<JSONObject> authorize(@RequestBody TransactionRequest auth) {
 
@@ -68,12 +62,13 @@ public class MainApiClass {
                                                                          );
 
         //Code to debit amount
-        User concernedUser = user.getUser(authRequest.getUserId());
+        User concernedUser = null; //user.getUser(authRequest.getUserId());
 
         //User object check
         if(concernedUser == null)
             return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
 
+            // TODO: -----------------
         if(debit.debitAmount(concernedUser, authRequest.getValidTransactAmount().getAmount())){
             eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
                                                                                 authRequest.getMessageId(),
@@ -120,12 +115,13 @@ public class MainApiClass {
                                                                                         )
                                                                          );
 
-        
-        User concernedUser = user.getUser(authRequest.getUserId());
+        //TODO: ----------------
+        User concernedUser = null; //user.getUser(authRequest.getUserId());
 
         if(concernedUser == null)
             return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
 
+            //TODO: ---------------
         credit.creditAmount(concernedUser, authRequest.getValidTransactAmount().getAmount());
 
         eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("LOAD",

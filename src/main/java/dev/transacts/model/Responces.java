@@ -6,7 +6,8 @@ import dev.transacts.entity.User;
 
 @SuppressWarnings("unchecked")
 public class Responces {
-    
+    private JSONObject obj = new JSONObject();
+
     /*
      * Methods to send Responses
      * 1.  BadRequestUserNotFound
@@ -23,39 +24,38 @@ public class Responces {
      * 12. BadRequestNoDebitCreditValue
      * 13. approveAuthorizationMessage
      * 14. approveLoadMessage
-     * 
+     * 15. 
      */
 
 
 
     public JSONObject approveAuthorizationMessage(TransactionRequest auth, User user) {
-        JSONObject obj = new JSONObject();
-        JSONObject innerObj = new JSONObject();
+        JSONObject balanceData = new JSONObject();
                
-        //Inner JSON Object
-        innerObj.put("amount", user.getBalance().toString());
-        innerObj.put("curreny", auth.getTransactAmount().getCurrency());
-        innerObj.put("debitOrCredit", auth.getTransactAmount().getDebitOrCredit());
-        
         //Main JSON Object
         obj.put("messageId", auth.getMessageId());
         obj.put("userId", user.getUserID());
         obj.put("responseCode", "APPROVED");
 
+        //Inner JSON Object
+        balanceData.put("amount", user.getBalance().toString());
+        balanceData.put("curreny", auth.getTransactAmount().getCurrency());
+        balanceData.put("debitOrCredit", auth.getTransactAmount().getDebitOrCredit());
+        
+
         //Final JSON Object
-        obj.put("balance", innerObj);
+        obj.put("balance", balanceData);
 
         return obj;
     }
 
-    public JSONObject deniedAuthorizationMessage(TransactionRequest auth, User user) {
-        JSONObject obj = new JSONObject();
-        JSONObject innerObj = new JSONObject();
+    public JSONObject deniedAuthorizationMessage(TransactionRequest auth, User user) {        
+        JSONObject balanceData = new JSONObject();
                
         //Inner JSON Object
-        innerObj.put("amount", user.getBalance().toString());
-        innerObj.put("curreny", auth.getTransactAmount().getCurrency());
-        innerObj.put("debitOrCredit", auth.getTransactAmount().getDebitOrCredit());
+        balanceData.put("amount", user.getBalance().toString());
+        balanceData.put("curreny", auth.getTransactAmount().getCurrency());
+        balanceData.put("debitOrCredit", auth.getTransactAmount().getDebitOrCredit());
         
         //Main JSON Object
         obj.put("messageId", auth.getMessageId());
@@ -63,19 +63,18 @@ public class Responces {
         obj.put("responseCode", "DENIED");
 
         //Final JSON Object
-        obj.put("balance", innerObj);
+        obj.put("balance", balanceData);
 
         return obj;
     }
 
-    public JSONObject approveLoadMessage(TransactionRequest auth, User user) {
-        JSONObject obj = new JSONObject();
-        JSONObject innerObj = new JSONObject();
+    public JSONObject approveLoadMessage(TransactionRequest auth, User user) {        
+        JSONObject balanceData = new JSONObject();
                
         //Inner JSON Object
-        innerObj.put("amount", user.getBalance().toString());
-        innerObj.put("curreny", auth.getTransactAmount().getCurrency());
-        innerObj.put("debitOrCredit", auth.getTransactAmount().getDebitOrCredit());
+        balanceData.put("amount", user.getBalance().toString());
+        balanceData.put("curreny", auth.getTransactAmount().getCurrency());
+        balanceData.put("debitOrCredit", auth.getTransactAmount().getDebitOrCredit());
         
         //Main JSON Object
         obj.put("messageId", auth.getMessageId());
@@ -83,14 +82,12 @@ public class Responces {
         obj.put("responseCode", "APPROVED");
 
         //Final JSON Object
-        obj.put("balance", innerObj);
+        obj.put("balance", balanceData);
 
         return obj;
     }
 
-    public JSONObject BadRequestNoUserFound() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestNoUserFound() {        
         //Main JSON Object
         obj.put("message","Bad Request: User not found");
         obj.put("code", "422");
@@ -99,9 +96,7 @@ public class Responces {
     }
 
 
-    public JSONObject BadRequestUserNotFound() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestUserNotFound() {        
         //Main JSON Object
         obj.put("message","Bad Request: userId is null");
         obj.put("code", "422");
@@ -109,9 +104,7 @@ public class Responces {
         return obj;
     }
     
-    public JSONObject BadRequestMessageExists() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestMessageExists() {        
         //Main JSON Object
         obj.put("message","Bad Request: Transaction already exists");
         obj.put("code", "422");
@@ -119,9 +112,7 @@ public class Responces {
         return obj;
     }
     
-    public JSONObject BadRequestInvalidCurrency() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestInvalidCurrency() {        
         //Main JSON Object
         obj.put("message","Bad Request: Not a valid currency");
         obj.put("code", "422");
@@ -129,9 +120,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidDebitOrCreditValue() {
-        JSONObject obj = new JSONObject();
-                       
+    public JSONObject BadRequestInvalidDebitOrCreditValue() {                       
         //Main JSON Object
         obj.put("message","Bad Request: Not a valid DEBIT or CREDIT value");
         obj.put("code", "422");
@@ -139,9 +128,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidAuthorization() {
-        JSONObject obj = new JSONObject();
-                       
+    public JSONObject BadRequestInvalidAuthorization() {                       
         //Main JSON Object
         obj.put("message","Bad Request: Can't AUTHORIZE a CREDIT Transaction");
         obj.put("code", "422");
@@ -149,9 +136,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidLoad() {
-        JSONObject obj = new JSONObject();
-                       
+    public JSONObject BadRequestInvalidLoad() {                       
         //Main JSON Object
         obj.put("message","Bad Request: Can't LOAD a DEBIT Transaction");
         obj.put("code", "422");
@@ -159,9 +144,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestNoAmount() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestNoAmount() {        
         //Main JSON Object
         obj.put("message","Bad Request: No amount is specified");
         obj.put("code", "422");
@@ -169,9 +152,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidAmount() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestInvalidAmount() {        
         //Main JSON Object
         obj.put("message","Bad Request: Amount should be a non-negative number");
         obj.put("code", "422");
@@ -179,9 +160,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidAmountDataType() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestInvalidAmountDataType() {        
         //Main JSON Object
         obj.put("message","Bad Request: Invalid amount datatype. Should be a decimal datatype");
         obj.put("code", "422");
@@ -189,9 +168,7 @@ public class Responces {
         return obj;
     }
     
-    public JSONObject BadRequestServerDown() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestServerDown() {        
         //Main JSON Object
         obj.put("message","Server is down. Please try again later");
         obj.put("code", "503");
@@ -199,9 +176,7 @@ public class Responces {
         return obj;
     }
     
-    public JSONObject BadRequestInsufficientFunds() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestInsufficientFunds() {        
         //Main JSON Object
         obj.put("message","Could not proceed with the transaction as the funds are insufficient");
         obj.put("code", "51");
@@ -209,9 +184,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestNullPayload() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestNullPayload() {        
         //Main JSON Object
         obj.put("message","Bad Request: Payload is empty");
         obj.put("code", "422");
@@ -219,9 +192,7 @@ public class Responces {
         return obj;
     }
     
-    public JSONObject BadRequestNoUserID() {
-        JSONObject obj = new JSONObject();
-                       
+    public JSONObject BadRequestNoUserID() {                       
         //Main JSON Object
         obj.put("message","Bad Request: userId is not mentioned");
         obj.put("code", "422");
@@ -229,9 +200,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestNoMessageID() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestNoMessageID() {        
         //Main JSON Object
         obj.put("message","Bad Request: messageId is not mentioned");
         obj.put("code", "422");
@@ -239,9 +208,7 @@ public class Responces {
         return obj;
     }
     
-    public JSONObject BadRequestNoDebitCreditValue() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestNoDebitCreditValue() {        
         //Main JSON Object
         obj.put("message","Bad Request: No CREDIT or DEBIT value mentioned");
         obj.put("code", "422");
@@ -249,9 +216,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidMessageID() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestInvalidMessageID() {        
         //Main JSON Object
         obj.put("message","Bad Request: Invalid MessageID format");
         obj.put("code", "422");
@@ -259,9 +224,7 @@ public class Responces {
         return obj;
     }
 
-    public JSONObject BadRequestInvalidUserID() {
-        JSONObject obj = new JSONObject();
-        
+    public JSONObject BadRequestInvalidUserID() {        
         //Main JSON Object
         obj.put("message","Bad Request: Invalud UserID Format");
         obj.put("code", "422");

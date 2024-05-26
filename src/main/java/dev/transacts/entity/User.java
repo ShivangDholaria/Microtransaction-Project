@@ -1,72 +1,67 @@
 package dev.transacts.entity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 
- */
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+/**
+ * Represents a User entity in the system.
+ */
+@Getter
+@Setter
+@Entity
+@Table(name = "user")
 public class User {
 
-    private static User userInstance;
-    public List<User> userList;
-
+    @Id
     private String UserID;
     private BigDecimal balance;
 
-    
-    User() {
-        userList = new ArrayList<>();
-    }
-    
-    //
+    /**
+     * Parameterized constructor for User class.
+     * @param userID The ID of the user.
+     * @param balance The balance of the user.
+     */
     public User(String userID, BigDecimal balance) {
         UserID = userID;
         this.balance = balance;
     }
-    
+
+    /**
+     * Retrieves the ID of the user.
+     * @return The ID of the user.
+     */
     public String getUserID() {
         return UserID;
     }
 
+    /**
+     * Sets the ID of the user.
+     * @param userID The ID of the user.
+     */
     public void setUserID(String userID) {
         UserID = userID;
     }
 
+    /**
+     * Retrieves the balance of the user.
+     * @return The balance of the user.
+     */
     public BigDecimal getBalance() {
         return balance;
     }
 
+    /**
+     * Sets the balance of the user.
+     * @param balance The balance of the user.
+     */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
-    }
-
-    //
-    public static User getInstance() {
-        if (userInstance == null) {
-            userInstance = new User();
-        }
-        return userInstance;
-    }
-
-    //
-    public User getUser(String userID) {
-        for (User user : userList) {
-            if (user.UserID.equals(userID)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public int getUserListLength() {
-        return userList.size();
-    }
-    
-    public void addUser(String userID, BigDecimal balance) {
-        userList.add(new User(userID, balance));
     }
 
 }

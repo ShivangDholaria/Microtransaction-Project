@@ -10,8 +10,8 @@ import dev.transacts.service.EventLogger;
 public class ResponseBodyCheck {
 
     public class BoolResponce {
-        public boolean valid;
-        public JSONObject response;
+        private boolean valid;
+        private JSONObject response;
 
         public BoolResponce(boolean valid, JSONObject response) {
             this.valid = valid;
@@ -69,26 +69,37 @@ public class ResponseBodyCheck {
     public BoolResponce checkPayloadForAuthorization(TransactionRequest auth, EventLogger e) {
         if (e.messageIDExists(auth.getMessageId()))
             return new BoolResponce(false, new Responces().BadRequestMessageExists());
+
         if (auth.getMessageId() == null)
             return new BoolResponce(false, new Responces().BadRequestNoMessageID());
+
         if (!uuidPattern.matcher(auth.getMessageId()).matches())
             return new BoolResponce(false, new Responces().BadRequestInvalidMessageID());
+        
         if (auth.getUserId() == null)
             return new BoolResponce(false, new Responces().BadRequestUserNotFound());
+        
         if (!uuidPattern.matcher(auth.getUserId()).matches())
             return new BoolResponce(false, new Responces().BadRequestInvalidUserID());
+    
         if (auth.getTransactAmount() == null)
             return new BoolResponce(false, new Responces().BadRequestNullPayload());
+        
         if (auth.getTransactAmount().getAmount() == null)
             return new BoolResponce(false, new Responces().BadRequestNoAmount());
+    
         if (!amountPattern.matcher(auth.getTransactAmount().getAmount()).matches())
             return new BoolResponce(false, new Responces().BadRequestInvalidAmountDataType());
+    
         if (new BigDecimal(auth.getTransactAmount().getAmount()).compareTo(BigDecimal.ZERO) == -1)
             return new BoolResponce(false, new Responces().BadRequestInsufficientFunds());
+        
         if (auth.getTransactAmount().getCurrency().compareTo("USD") != 0)
             return new BoolResponce(false, new Responces().BadRequestInvalidCurrency());
+    
         if (auth.getTransactAmount().getDebitOrCredit() == null)
             return new BoolResponce(false, new Responces().BadRequestNoDebitCreditValue());
+        
         if (!auth.getTransactAmount().getDebitOrCredit().equalsIgnoreCase("debit"))
             return new BoolResponce(false, new Responces().BadRequestInvalidDebitOrCreditValue());
 

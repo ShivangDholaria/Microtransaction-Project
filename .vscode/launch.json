@@ -9,6 +9,13 @@
             "name": "MainApplication",
             "request": "launch",
             "mainClass": "dev.transacts.MainApplication",
+            "projectName": "transacts"
+        },
+        {
+            "type": "java",
+            "name": "MainApplication",
+            "request": "launch",
+            "mainClass": "dev.transacts.MainApplication",
             "projectName": "CodeScreen_1521jlcz"
         },
         {

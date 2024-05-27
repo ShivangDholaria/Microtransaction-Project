@@ -6,10 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "currency")
@@ -20,7 +22,6 @@ public class Currencies {
     @Column(name = "currency_name")
     private String currencyName;
 
-    // Getter and Setter methods for currencyCode
     public String getCurrencyCode() {
         return currencyCode;
     }
@@ -29,7 +30,6 @@ public class Currencies {
         this.currencyCode = currencyCode;
     }
 
-    // Getter and Setter methods for currencyName
     public String getCurrencyName() {
         return currencyName;
     }

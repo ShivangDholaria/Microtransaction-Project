@@ -1,7 +1,6 @@
 package dev.transacts.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

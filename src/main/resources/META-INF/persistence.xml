@@ -10,13 +10,12 @@
         <class>dev.transacts.entity.User</class>
         <properties>
             <!-- JDBC properties -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/transactions_project"/>
-            <property name="javax.persistence.jdbc.user" value="transact_user"/>
-            <property name="javax.persistence.jdbc.password" value="ABC@defgh"/>
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/transactions_project"/>
+            <property name="jakarta.persistence.jdbc.user" value="transact_user"/>
+            <property name="jakarta.persistence.jdbc.password" value="ABC@defgh"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <!-- Hibernate properties -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.default_schema" value="transact_proj"/>
         </properties>

@@ -4,36 +4,35 @@ package dev.transacts;
 import java.util.Currency;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import dev.transacts.entity.Currencies;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import dev.transacts.repository.CurrencyRepository;
 
 /**
  * The main class of the application.
  */
 @SpringBootApplication
-public class MainApplication {
+public class MainApplication implements CommandLineRunner {
 
-
+    @Autowired
+    private CurrencyRepository currencyRepository;
     
-    public static void main(String[] args) {
-        
-        //Creating persistence storage before API can be used
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("transaction_project-pu");
-        EntityManager em = emf.createEntityManager();
-
-        Set<Currency> currSet = Currency.getAvailableCurrencies(); 
-        
-        //Adding persistence storage for Currencies
-        for(Currency cur : currSet) {
-            new Currencies(cur.getCurrencyCode(), cur.getDisplayName());
-        }
-
+    Set<Currency> currSet = Currency.getAvailableCurrencies(); 
+    
+    public static void main(String[] args) {    
         SpringApplication.run(MainApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        for(Currency cur : currSet) {
+            Currencies currencies = new Currencies(cur.getCurrencyCode(), cur.getDisplayName());
+            currencyRepository.save(currencies);
+        }
     }
 
 }

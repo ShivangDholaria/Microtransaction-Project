@@ -1,7 +1,3 @@
-**Important: Don't forget to update the [Candidate README](#candidate-readme) section**
-
-Real-time Transaction Challenge
-===============================
 ## Overview
 This project is a backend API that records the transactions that are initiated by valid users. 
 

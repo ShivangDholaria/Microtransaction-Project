@@ -29,10 +29,21 @@ public class MainApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+
+        /*
+         * TODO : 
+         *      -- Add currencies to the table (Done)
+         *      -- Add users in the table (To be added)
+         */         
+
+        // Adding all currencies in the table
         for(Currency cur : currSet) {
             Currencies currencies = new Currencies(cur.getCurrencyCode(), cur.getDisplayName());
             currencyRepository.save(currencies);
         }
+
+        //
     }
 
 }

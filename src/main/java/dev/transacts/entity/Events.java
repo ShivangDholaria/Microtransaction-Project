@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,15 +23,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "events")
+
+// TODO:
+//  -- Add user id as foriegn key 
 public class Events {
     
     @Column(name = "action")
     private String action;
 
+    @Id
     @Column(name = "message_id")
     private String messageID;
 
-    @Id
     @Column(name = "user_id")
     private String userID;
 

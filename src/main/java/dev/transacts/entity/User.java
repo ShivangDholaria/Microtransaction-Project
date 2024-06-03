@@ -2,6 +2,7 @@ package dev.transacts.entity;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -18,7 +19,10 @@ import lombok.Setter;
 public class User {
 
     @Id
+    @Column(name = "user_id")
     private String UserID;
+
+    @Column(name = "balance")
     private BigDecimal balance;
 
     /**

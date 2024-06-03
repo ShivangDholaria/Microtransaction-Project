@@ -30,17 +30,6 @@ public class EventLogger {
     }
 
     /**
-     * Returns the singleton instance of the EventLogger class.
-     * @return The EventLogger instance.
-     */
-    public static EventLogger getInstance() {
-        if (instance == null) {
-            instance = new EventLogger();
-        }
-        return instance;
-    }
-
-    /**
      * Checks if a message ID already exists in the messageIDSet.
      * @param messageId The message ID to check.
      * @return true if the message ID exists, false otherwise.

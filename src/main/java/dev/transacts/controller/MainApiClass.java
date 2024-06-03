@@ -16,21 +16,18 @@ import dev.transacts.model.ResponseBodyCheck.BoolResponce;
 import dev.transacts.service.Credit;
 import dev.transacts.service.Debit;
 import dev.transacts.service.EventLogger;
- 
-
 
 @RestController
 public class MainApiClass {
-    //Send responses back
+    // Send responses back
     Responces createResponse = new Responces();
     ResponseBodyCheck responseBodyCheck = new ResponseBodyCheck();
-    //Service objects
+
+    // Service objects
     Debit debit = new Debit();
     Credit credit = new Credit();
 
-    //Event loggers
-    static EventLogger eventLogger = EventLogger.getInstance();
-    
+
     @GetMapping("/")
     public String WelcomPage() {
 
@@ -48,54 +45,48 @@ public class MainApiClass {
     @PutMapping("/authorization")
     public ResponseEntity<JSONObject> authorize(@RequestBody TransactionRequest auth) {
 
-        BoolResponce res = responseBodyCheck.checkPayloadForAuthorization(auth, eventLogger);
+        BoolResponce res = responseBodyCheck.checkPayloadForAuthorization(auth);
 
-        if(!res.isValid())
+        if (!res.isValid())
             return ResponseEntity.badRequest().body(res.getResponse());
 
-        ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(), 
-                                                                            auth.getUserId(), 
-                                                                            new Balance(auth.getTransactAmount().getAmount(), 
-                                                                                        auth.getTransactAmount().getCurrency(),
-                                                                                        auth.getTransactAmount().getDebitOrCredit()
-                                                                                        )
-                                                                         );
+        ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(),
+                auth.getUserId(),
+                new Balance(auth.getTransactAmount().getAmount(),
+                        auth.getTransactAmount().getCurrency(),
+                        auth.getTransactAmount().getDebitOrCredit()));
 
-        //Code to debit amount
-        User concernedUser = null; //user.getUser(authRequest.getUserId());
+        // Code to debit amount
+        User concernedUser = null; // user.getUser(authRequest.getUserId());
 
-        //User object check
-        if(concernedUser == null)
+        // User object check
+        if (concernedUser == null)
             return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
 
-            // TODO: -----------------
-        if(debit.debitAmount(concernedUser, authRequest.getValidTransactAmount().getAmount())){
+        // TODO: -----------------
+        if (debit.debitAmount(concernedUser, authRequest.getValidTransactAmount().getAmount())) {
             eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
-                                                                                authRequest.getMessageId(),
-                                                                                authRequest.getUserId(),
-                                                                                authRequest.getValidTransactAmount().getDebitOrCredit(),
-                                                                                authRequest.getValidTransactAmount().getAmount(),
-                                                                                "APPROVED",
-                                                                                concernedUser.getBalance().toString(),
-                                                                                new Ping().getTimeStamp()
-                                                                                ));
+                    authRequest.getMessageId(),
+                    authRequest.getUserId(),
+                    authRequest.getValidTransactAmount().getDebitOrCredit(),
+                    authRequest.getValidTransactAmount().getAmount(),
+                    "APPROVED",
+                    concernedUser.getBalance().toString(),
+                    new Ping().getTimeStamp()));
             return ResponseEntity.ok().body(createResponse.approveAuthorizationMessage(auth, concernedUser));
-        }
-        else {
+        } else {
             eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
-                                                                                authRequest.getMessageId(),
-                                                                                authRequest.getUserId(),
-                                                                                authRequest.getValidTransactAmount().getDebitOrCredit(),
-                                                                                authRequest.getValidTransactAmount().getAmount(),
-                                                                                "DENIED",
-                                                                                concernedUser.getBalance().toString(),
-                                                                                new Ping().getTimeStamp()
-                                                                                ));
+                    authRequest.getMessageId(),
+                    authRequest.getUserId(),
+                    authRequest.getValidTransactAmount().getDebitOrCredit(),
+                    authRequest.getValidTransactAmount().getAmount(),
+                    "DENIED",
+                    concernedUser.getBalance().toString(),
+                    new Ping().getTimeStamp()));
 
             eventLogger.fetchUserEvents(authRequest.getUserId());
             return ResponseEntity.ok().body(createResponse.deniedAuthorizationMessage(auth, concernedUser));
         }
-
 
     }
 
@@ -104,38 +95,34 @@ public class MainApiClass {
 
         BoolResponce res = responseBodyCheck.checkPayloadForLoad(auth, eventLogger);
 
-        if(!res.isValid())
+        if (!res.isValid())
             return ResponseEntity.badRequest().body(res.getResponse());
-        
-        ValidTransactionRequest authRequest = new ValidTransactionRequest(  auth.getMessageId(), 
-                                                                            auth.getUserId(), 
-                                                                            new Balance(auth.getTransactAmount().getAmount(), 
-                                                                                        auth.getTransactAmount().getCurrency(),
-                                                                                        auth.getTransactAmount().getDebitOrCredit()
-                                                                                        )
-                                                                         );
 
-        //TODO: ----------------
-        User concernedUser = null; //user.getUser(authRequest.getUserId());
+        ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(),
+                auth.getUserId(),
+                new Balance(auth.getTransactAmount().getAmount(),
+                        auth.getTransactAmount().getCurrency(),
+                        auth.getTransactAmount().getDebitOrCredit()));
 
-        if(concernedUser == null)
+        // TODO: ----------------
+        User concernedUser = null; // user.getUser(authRequest.getUserId());
+
+        if (concernedUser == null)
             return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
 
-            //TODO: ---------------
+        // TODO: ---------------
         credit.creditAmount(concernedUser, authRequest.getValidTransactAmount().getAmount());
 
         eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("LOAD",
-                                                                                authRequest.getMessageId(),
-                                                                                authRequest.getUserId(),
-                                                                                authRequest.getValidTransactAmount().getDebitOrCredit(),
-                                                                                authRequest.getValidTransactAmount().getAmount(),
-                                                                                "APPROVED",
-                                                                                concernedUser.getBalance().toString(),
-                                                                                new Ping().getTimeStamp()
-                                                                            )
-                                        );
-        
+                authRequest.getMessageId(),
+                authRequest.getUserId(),
+                authRequest.getValidTransactAmount().getDebitOrCredit(),
+                authRequest.getValidTransactAmount().getAmount(),
+                "APPROVED",
+                concernedUser.getBalance().toString(),
+                new Ping().getTimeStamp()));
+
         return ResponseEntity.ok().body(createResponse.approveLoadMessage(auth, concernedUser));
     }
-    
+
 }

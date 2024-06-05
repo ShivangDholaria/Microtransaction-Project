@@ -45,84 +45,88 @@ public class MainApiClass {
     @PutMapping("/authorization")
     public ResponseEntity<JSONObject> authorize(@RequestBody TransactionRequest auth) {
 
-        BoolResponce res = responseBodyCheck.checkPayloadForAuthorization(auth);
+        // BoolResponce res = responseBodyCheck.checkPayloadForAuthorization(auth);
 
-        if (!res.isValid())
-            return ResponseEntity.badRequest().body(res.getResponse());
+        // if (!res.isValid())
+        //     return ResponseEntity.badRequest().body(res.getResponse());
 
-        ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(),
-                auth.getUserId(),
-                new Balance(auth.getTransactAmount().getAmount(),
-                        auth.getTransactAmount().getCurrency(),
-                        auth.getTransactAmount().getDebitOrCredit()));
+        // ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(),
+        //         auth.getUserId(),
+        //         new Balance(auth.getTransactAmount().getAmount(),
+        //                 auth.getTransactAmount().getCurrency(),
+        //                 auth.getTransactAmount().getDebitOrCredit()));
 
-        // Code to debit amount
-        User concernedUser = null; // user.getUser(authRequest.getUserId());
+        // // Code to debit amount
+        // User concernedUser = null; // user.getUser(authRequest.getUserId());
 
-        // User object check
-        if (concernedUser == null)
-            return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
+        // // User object check
+        // if (concernedUser == null)
+        //     return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
 
-        // TODO: -----------------
-        if (debit.debitAmount(concernedUser, authRequest.getValidTransactAmount().getAmount())) {
-            eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
-                    authRequest.getMessageId(),
-                    authRequest.getUserId(),
-                    authRequest.getValidTransactAmount().getDebitOrCredit(),
-                    authRequest.getValidTransactAmount().getAmount(),
-                    "APPROVED",
-                    concernedUser.getBalance().toString(),
-                    new Ping().getTimeStamp()));
-            return ResponseEntity.ok().body(createResponse.approveAuthorizationMessage(auth, concernedUser));
-        } else {
-            eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
-                    authRequest.getMessageId(),
-                    authRequest.getUserId(),
-                    authRequest.getValidTransactAmount().getDebitOrCredit(),
-                    authRequest.getValidTransactAmount().getAmount(),
-                    "DENIED",
-                    concernedUser.getBalance().toString(),
-                    new Ping().getTimeStamp()));
+        // // TODO: -----------------
+        // if (debit.debitAmount(concernedUser, authRequest.getValidTransactAmount().getAmount())) {
+        //     eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
+        //             authRequest.getMessageId(),
+        //             authRequest.getUserId(),
+        //             authRequest.getValidTransactAmount().getDebitOrCredit(),
+        //             authRequest.getValidTransactAmount().getAmount(),
+        //             "APPROVED",
+        //             concernedUser.getBalance().toString(),
+        //             new Ping().getTimeStamp()));
+        //     return ResponseEntity.ok().body(createResponse.approveAuthorizationMessage(auth, concernedUser));
+        // } else {
+        //     eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
+        //             authRequest.getMessageId(),
+        //             authRequest.getUserId(),
+        //             authRequest.getValidTransactAmount().getDebitOrCredit(),
+        //             authRequest.getValidTransactAmount().getAmount(),
+        //             "DENIED",
+        //             concernedUser.getBalance().toString(),
+        //             new Ping().getTimeStamp()));
 
-            eventLogger.fetchUserEvents(authRequest.getUserId());
-            return ResponseEntity.ok().body(createResponse.deniedAuthorizationMessage(auth, concernedUser));
-        }
+        //     eventLogger.fetchUserEvents(authRequest.getUserId());
+            // return ResponseEntity.ok().body(createResponse.deniedAuthorizationMessage(auth, concernedUser));
 
+        // }
+        
+        return null;
     }
 
     @PutMapping("/load")
     public ResponseEntity<JSONObject> load(@RequestBody TransactionRequest auth) {
 
-        BoolResponce res = responseBodyCheck.checkPayloadForLoad(auth, eventLogger);
+        // BoolResponce res = responseBodyCheck.checkPayloadForLoad(auth, eventLogger);
 
-        if (!res.isValid())
-            return ResponseEntity.badRequest().body(res.getResponse());
+        // if (!res.isValid())
+        //     return ResponseEntity.badRequest().body(res.getResponse());
 
-        ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(),
-                auth.getUserId(),
-                new Balance(auth.getTransactAmount().getAmount(),
-                        auth.getTransactAmount().getCurrency(),
-                        auth.getTransactAmount().getDebitOrCredit()));
+        // ValidTransactionRequest authRequest = new ValidTransactionRequest(auth.getMessageId(),
+        //         auth.getUserId(),
+        //         new Balance(auth.getTransactAmount().getAmount(),
+        //                 auth.getTransactAmount().getCurrency(),
+        //                 auth.getTransactAmount().getDebitOrCredit()));
 
-        // TODO: ----------------
-        User concernedUser = null; // user.getUser(authRequest.getUserId());
+        // // TODO: ----------------
+        // User concernedUser = null; // user.getUser(authRequest.getUserId());
 
-        if (concernedUser == null)
-            return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
+        // if (concernedUser == null)
+        //     return ResponseEntity.badRequest().body(new Responces().BadRequestNoUserFound());
 
-        // TODO: ---------------
-        credit.creditAmount(concernedUser, authRequest.getValidTransactAmount().getAmount());
+        // // TODO: ---------------
+        // credit.creditAmount(concernedUser, authRequest.getValidTransactAmount().getAmount());
 
-        eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("LOAD",
-                authRequest.getMessageId(),
-                authRequest.getUserId(),
-                authRequest.getValidTransactAmount().getDebitOrCredit(),
-                authRequest.getValidTransactAmount().getAmount(),
-                "APPROVED",
-                concernedUser.getBalance().toString(),
-                new Ping().getTimeStamp()));
+        // eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("LOAD",
+        //         authRequest.getMessageId(),
+        //         authRequest.getUserId(),
+        //         authRequest.getValidTransactAmount().getDebitOrCredit(),
+        //         authRequest.getValidTransactAmount().getAmount(),
+        //         "APPROVED",
+        //         concernedUser.getBalance().toString(),
+        //         new Ping().getTimeStamp()));
 
-        return ResponseEntity.ok().body(createResponse.approveLoadMessage(auth, concernedUser));
+        // return ResponseEntity.ok().body(createResponse.approveLoadMessage(auth, concernedUser));
+
+        return null;
     }
 
 }

@@ -3,7 +3,6 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,7 @@ import lombok.Setter;
 @Table(name = "events")
 
 // TODO:
-//  -- Add user id as foriegn key 
+//  -- Add user id as foriegn key - (Not required) 
 public class Events {
     
     @Column(name = "action")

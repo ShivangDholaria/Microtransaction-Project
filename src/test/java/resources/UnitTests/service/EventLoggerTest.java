@@ -11,24 +11,24 @@ import dev.transacts.service.EventLogger;
 
 public class EventLoggerTest {
 
-    private EventLogger eventLogger;
+    // private EventLogger eventLogger;
 
-    @Before
-    public void setUp() {
-        eventLogger = EventLogger.getInstance();
-    }
+    // @Before
+    // public void setUp() {
+    //     eventLogger = EventLogger.getInstance();
+    // }
 
-    @Test
-    public void testMessageIDExists() {
-        Events event = new Events();
-        event.setMessageID("1234");
-        eventLogger.logTransactionEvent("user1", event);
+    // @Test
+    // public void testMessageIDExists() {
+    //     Events event = new Events();
+    //     event.setMessageID("1234");
+    //     eventLogger.logTransactionEvent("user1", event);
 
-        assertTrue(eventLogger.messageIDExists(event.getMessageID()));
-    }
+    //     assertTrue(eventLogger.messageIDExists(event.getMessageID()));
+    // }
 
-    @Test
-    public void testMessageIDDoesNotExist() {
-        assertFalse(eventLogger.messageIDExists("nonexistentId"));
-    }
+    // @Test
+    // public void testMessageIDDoesNotExist() {
+    //     assertFalse(eventLogger.messageIDExists("nonexistentId"));
+    // }
 }

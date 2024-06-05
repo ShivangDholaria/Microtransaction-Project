@@ -14,16 +14,13 @@ public class EventsServiceImpl implements EventsService{
     private EventRepository eventsRepository;
 
     @Override
-    public Events saveEvents(Events events) {
-        return eventsRepository.save(events);
+    public Events saveEvent(Events event) {
+        return eventsRepository.save(event);
     }
 
 	@Override
-	public List<Events> fetchEvents(String eventID) {
-        //TODO:
-        //  -- Implement the fetchEvents method
-
-        return null;
+	public boolean isExist(String eventID) {
+        return eventsRepository.existsById(eventID);
     }
     
 }

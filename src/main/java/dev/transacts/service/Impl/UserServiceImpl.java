@@ -1,11 +1,15 @@
 package dev.transacts.service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dev.transacts.entity.User;
 import dev.transacts.repository.UserRepository;
 import dev.transacts.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService{
 
     @Autowired
@@ -26,6 +30,13 @@ public class UserServiceImpl implements UserService{
         return userRepository.saveAndFlush(user);
     }
 
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
     
-    
+    @Override
+    public long getUserCount() {
+        return userRepository.count();
+    }
 }

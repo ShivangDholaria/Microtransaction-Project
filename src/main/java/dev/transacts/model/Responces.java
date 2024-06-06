@@ -27,7 +27,9 @@ public class Responces {
      * 15. 
      */
 
-
+    /*
+     * TODO: Refactor this whole code
+     */
 
     public JSONObject approveAuthorizationMessage(TransactionRequest auth, User user) {
         JSONObject balanceData = new JSONObject();

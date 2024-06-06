@@ -1,6 +1,5 @@
 package dev.transacts.model;
 
-
 public class TransactionRequest {
 
     //Variable to set them as requests come in

@@ -1,43 +1,28 @@
 package dev.transacts.service;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import dev.transacts.entity.Events;
+import dev.transacts.service.Impl.EventsServiceImpl;
 
-/**
- * The EventLogger class is responsible for logging transaction events and retrieving user events.
- */
 public class EventLogger {
 
-    private static EventLogger instance;
-    
+    @Autowired
+    private EventsServiceImpl eServiceImpl;
+
     // User-wise event logging
     Map<String, List<Events>> transactionEventLogger;
-     
-    Set<String> messageIDSet;
-    
+         
     /**
      * Constructs a new EventLogger object.
      * Initializes the transactionEventLogger and messageIDSet.
      */
     EventLogger() {
         transactionEventLogger = new HashMap<>();
-        messageIDSet = new HashSet<>();
-    }
-
-    /**
-     * Checks if a message ID already exists in the messageIDSet.
-     * @param messageId The message ID to check.
-     * @return true if the message ID exists, false otherwise.
-     */
-    public boolean messageIDExists(String messageId) {
-        if(messageIDSet.contains(messageId))
-            return true;
-        return false;
     }
 
     /**
@@ -47,22 +32,10 @@ public class EventLogger {
      * @param events The event to log.
      */
     public void logTransactionEvent(String userId, Events events) {
-        messageIDSet.add(events.getMessageID());
         List<Events> userEvents = transactionEventLogger.getOrDefault(userId, new ArrayList<>());
         userEvents.add(events);
         transactionEventLogger.put(userId, userEvents);
+        eServiceImpl.saveEvent(events);
     }
 
-    /**
-     * Fetches and prints all events for a specific user.
-     * @param userId The ID of the user.
-     */
-    public void fetchUserEvents(String userId) {
-        List<Events> userEvents = transactionEventLogger.get(userId);
-        if (userEvents != null) {
-            for (Events event : userEvents) {
-                System.out.println(event.toString());
-            }
-        }
-    }
 }

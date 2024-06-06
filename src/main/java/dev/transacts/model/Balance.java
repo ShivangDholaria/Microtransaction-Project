@@ -3,10 +3,6 @@ package dev.transacts.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * 
- */
-
 public class Balance {
 
     //Variable to set them as requests come in

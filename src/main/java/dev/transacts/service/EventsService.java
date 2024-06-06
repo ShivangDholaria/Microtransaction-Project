@@ -1,6 +1,5 @@
 package dev.transacts.service;
 
-
 import dev.transacts.entity.Events;
 
 public interface EventsService {

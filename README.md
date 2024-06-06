@@ -17,7 +17,7 @@ The `service.yml` file contains the schemas of the API and other related classes
 ## Bootstrap instructions
 
 System Requirement:
-- JDk Version 21
+- JDK Version 21
 - Apache Maven 3.9.6
 - Docker
 
@@ -64,6 +64,9 @@ You will the following when the project runs perfectly
 ![Project ran successfully](/img/successful_run.jpg)
 
 Enter the following URL in your browser to see the welcome page.
+```http
+http://localhost:8080/
+```
 ![](/img/Starter_page.jpeg)
 ## Design considerations
 I decided to use the Spring Boot framework for the following reasons:
@@ -74,9 +77,7 @@ I decided to use the Spring Boot framework for the following reasons:
 
 3. Community Support: Spring Boot has a large and active community of developers, which means there are plenty of resources, tutorials, and forums available for support. This community-driven ecosystem ensures continuous improvement and updates to the framework.
 
-I decided to go with inline memory rathan a Database as
-1. I decided to go with inline memory rather than a database for the following reasons:
-
+Initially I decided to go with inline memory as:
 1. Performance: Inline memory operations are typically faster than database operations. 
 
 2. Simplicity: Using inline memory eliminates the need for setting up and managing a separate database system. It simplifies the development process by reducing the complexity of database configuration, connection management, and query optimization for a microservice that is going to be used locally.
@@ -85,11 +86,11 @@ I decided to go with inline memory rathan a Database as
 
 4. Development and Testing: Inline memory is well-suited for development and testing environments where the focus is on rapid iteration and quick feedback. It allows developers to easily manipulate and reset data without the need for complex database setup or data migration scripts.
 
-A database would be well suited for the scenario where data persistence, durability, and advanced querying capabilities are required. 
+And now it has been moved to a database.
 
 Using event sourcing pattern in my case was to record every transaction that a user made and appending its record in an event logger. The event logger has only the functionality to append logs to it. Since events are immutable, there is no need for update or remove functionality. For this, I made an event logger class and used to HashMap to store the users and their respective event logs. By using this approach, we are not only able to maintain an immutable transaction history, but also easier to retrieve the state of the user's account in case of data corruption.
 
-I decided to use singleton pattern for this assessment on 2 classes, **User** and **EventLogger** class. The reasons being:
+I decided to use singleton pattern when the memory was inline on 2 classes, **User** and **EventLogger** class. The reasons being:
 - Since inline memory is being used, having a user instance in the RestController class would make it easier and faster to fetch users to perform the trasactions.
 - Passing the instances of these classes solved many of the problems that occurred while developing the API.
 conflicts or inefficiencies.

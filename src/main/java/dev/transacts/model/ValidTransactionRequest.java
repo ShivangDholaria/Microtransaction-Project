@@ -1,6 +1,5 @@
 package dev.transacts.model;
 
-
 public class ValidTransactionRequest {
 
     //Variable to set them as requests come in

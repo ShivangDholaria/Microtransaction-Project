@@ -23,8 +23,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "events")
 
-// TODO:
-//  -- Add user id as foriegn key - (Not required) 
 public class Events {
     
     @Column(name = "action")

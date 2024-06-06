@@ -1,5 +1,7 @@
 package dev.transacts.service;
 
+import java.util.List;
+
 import dev.transacts.entity.User;
 
 public interface UserService {
@@ -13,5 +15,10 @@ public interface UserService {
     //update operation
     User updateUser(User user);
 
-    //
+    // Get all user
+    List<User> getAllUser();
+
+    //Get user count
+    long getUserCount();
+
 }

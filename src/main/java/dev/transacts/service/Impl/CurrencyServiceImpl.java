@@ -24,11 +24,5 @@ public class CurrencyServiceImpl implements CurrencyService{
     public Currencies saveCurrencies(Currencies currencies) {
         return currencyRepository.save(currencies);
     }
-
-    @Override
-    public Currencies updateCurrencies(Currencies currencies, String curCode) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateCurrencies'");
-    }
     
 }

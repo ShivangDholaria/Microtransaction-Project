@@ -1,6 +1,7 @@
 package dev.transacts.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class MainApiClass {
     @Autowired
     private EventsServiceImpl eventsServiceImpl;
 
+    //
     private EventLogger eventLogger;
 
     // Send responses back
@@ -109,16 +111,26 @@ public class MainApiClass {
     @GetMapping("/")
     public String WelcomPage() {
 
+        
         //Add code for adding currencies in the Dd
         AddCurrencies();
-    
+        
         //Add code for adding users in DB
         AddUsers();
-
+        
         List<User> users = userServiceImpl.getAllUser();
+        
+        eventLogger = new EventLogger();
+
+        for (int i = 0; i < userServiceImpl.getUserCount(); i++) {
+            eventLogger.transactionEventLogger.put(userServiceImpl.getAllUser().get(i).getUserID(),
+            eventsServiceImpl.getUserEvents(userServiceImpl.getAllUser().get(i).getUserID()) == null ? 
+            new ArrayList<>() : eventsServiceImpl.getUserEvents(userServiceImpl.getAllUser().get(i).getUserID()));
+        }
+
 
         StringBuilder userIDs = new StringBuilder(
-                "This is a starter page.</br> The following are the userIDs present to use the API.</br></br>");
+                "This is the initializer page.</br> This will initailize the database with user table and currency table and populate them.</br> The following are the userIDs present to use the API.</br></br>");
         for (User user : users) {
             userIDs.append(user.getUserID()).append("</br>");
         }
@@ -155,6 +167,7 @@ public class MainApiClass {
 
         if(debit.debitAmount(concernedUser, authRequest.getValidTransactAmount().getAmount())) {
 
+            userServiceImpl.updateUser(concernedUser);
             eventLogger.logTransactionEvent(authRequest.getUserId(), new Events("AUTHORIZATION",
                     authRequest.getMessageId(),
                     authRequest.getUserId(),
@@ -162,7 +175,8 @@ public class MainApiClass {
                     authRequest.getValidTransactAmount().getAmount(),
                     "APPROVED",
                     concernedUser.getBalance().toString(),
-                    new Ping().getTimeStamp()));
+                    new Ping().getTimeStamp()),
+                    eventsServiceImpl);
 
             return ResponseEntity.ok().body(createResponse.approveAuthorizationMessage(auth, concernedUser));
         } else {
@@ -173,7 +187,8 @@ public class MainApiClass {
                     authRequest.getValidTransactAmount().getAmount(),
                     "DENIED",
                     concernedUser.getBalance().toString(),
-                    new Ping().getTimeStamp()));
+                    new Ping().getTimeStamp()),
+                    eventsServiceImpl);
 
             return ResponseEntity.ok().body(createResponse.deniedAuthorizationMessage(auth, concernedUser));
 
@@ -212,7 +227,8 @@ public class MainApiClass {
                                                     authRequest.getValidTransactAmount().getAmount(),
                                                     "APPROVED",
                                                     concernedUser.getBalance().toString(),
-                                                    new Ping().getTimeStamp()));
+                                                    new Ping().getTimeStamp()),
+                                                    eventsServiceImpl);
 
         return ResponseEntity.ok().body(createResponse.approveLoadMessage(auth, concernedUser));
     }

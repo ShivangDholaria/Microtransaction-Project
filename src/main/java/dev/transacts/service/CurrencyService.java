@@ -12,8 +12,4 @@ public interface CurrencyService {
     //Get operation
     List<Currencies> fetchAllCurrencies();
 
-    //update operation
-    Currencies updateCurrencies(Currencies currencies, String curCode);
-
-
 }

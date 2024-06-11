@@ -1,36 +1,33 @@
 ### TO DO ###
 
 
-
-
 # version: '3.9'
 
-# services:
-#   nodejs-app:
-#     build:
-#       context: .
-#       target: run
-#     image: tivix-nodejs-task
-#     env_file:
-#       - .env
-#     ports:
-#       - target: 3000
-#         published: 3000
-#         protocol: tcp
-#         mode: host
-#     depends_on:
-#       - postgres_db
-#   postgres_db:
-#     image: postgres
-#     volumes:
-#       - postgres_db_data:/data
-#     ports:
-#       - target: 5432
-#         published: 5432
-#         protocol: tcp
-#         mode: host
-#     env_file:
-#       - postgres.env
-    
-# volumes:
-#   postgres_db_data:
+services:
+  postgres-database:
+    image: postgres
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: transact_user
+      POSTGRES_PASSWORD: ABC@defgh
+      POSTGRES_DB: transactions_project
+    ports:
+      - '5432:5432'
+  
+  transacts:
+    container_name: transacts
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-database:5432/transactions_project
+      - SPRING_DATASOURCE_USERNAME=transact_user
+      - SPRING_DATASOURCE_PASSWORD=ABC@defgh
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - postgres-database
+
+

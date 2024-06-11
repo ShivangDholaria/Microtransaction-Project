@@ -20,4 +20,4 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Specify the start command
-CMD ["java", "-jar", "/usr/src/app/target/CodeScreen_1521jlcz-1.0.0.jar"]
+CMD ["java", "-jar", "/usr/src/app/target/transacts-1.0.0.jar"]

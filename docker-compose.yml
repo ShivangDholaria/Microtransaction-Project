@@ -5,7 +5,7 @@
 
 services:
   postgres-database:
-    image: postgres
+    image: postgres:latest
     container_name: postgres-db
     restart: always
     environment:
@@ -23,7 +23,7 @@ services:
     ports:
       - '8080:8080'
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-database:5432/transactions_project
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/transactions_project
       - SPRING_DATASOURCE_USERNAME=transact_user
       - SPRING_DATASOURCE_PASSWORD=ABC@defgh
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update

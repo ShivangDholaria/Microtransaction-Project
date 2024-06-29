@@ -1,5 +1,5 @@
 # Start with a base image containing Java runtime
-FROM maven:3.9.6-sapmachine-21 AS build
+FROM maven:3-sapmachine-22 AS build
 
 # The application's .jar file
 ARG JAR_FILE=target/*.jar
